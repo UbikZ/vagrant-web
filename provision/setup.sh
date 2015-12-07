@@ -25,6 +25,13 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 echo "Installing MySQL"
 apt-get install mysql-server -y >/dev/null
 
+echo "Installing Mongo"
+apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 >/dev/null
+echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.0 main" | tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+apt-get update >/dev/null
+sudo apt-get install -y mongodb-org >/dev/null
+/etc/init.d/mongod restart
+
 echo "Installing Nginx"
 apt-get install nginx -y >/dev/null
 /etc/init.d/nginx stop
@@ -56,7 +63,7 @@ echo "Install node"
 curl -sL https://deb.nodesource.com/setup_5.x | bash -
 apt-get install -y nodejs
 [ ! -h /usr/bin/node ] && ln -s /usr/bin/nodejs /usr/bin/node
-npm install gulp-cli -g
+npm install gulp-cli pm2 -g
 
 echo "Clean"
 apt-get clean
