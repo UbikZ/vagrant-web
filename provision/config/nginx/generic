@@ -1,21 +1,21 @@
 server {
-        server_name ~^(?<site>[a-z0-9\-_]+\.)dev-vagrant.com$;
+  server_name ~^(?<site>[a-z0-9\-_]+\.)dev-vagrant.com$;
 
-        if ($site = "") {
-                set $site html;
-        }
+  if ($site = "") {
+    set $site html;
+  }
 
-	set $root /var/www/dev/$site;
+	set $root /var/www/$site;
 
-        if (-d /var/www/$site/public) {
-                set $root /var/www/$site/public;
-        }
+  if (-d /var/www/$site/public) {
+    set $root /var/www/$site/public;
+  }
 
-        if (-d /var/www/$site/web) {
-                set $root /var/www/$site/web;
-        }
+  if (-d /var/www/$site/web) {
+    set $root /var/www/$site/web;
+  }
 
-        root $root;
+  root $root;
 
 	index index.php index.html index.htm;
 
