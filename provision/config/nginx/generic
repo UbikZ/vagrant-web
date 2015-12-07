@@ -24,7 +24,7 @@ server {
 	}
 
 	location / {
-		proxy_pass http://apache:9080;
+		proxy_pass http://localhost:9080;
 		include  /etc/nginx/proxy_params;
 	}
 

@@ -11,19 +11,12 @@ echo "Installing openssh-server"
 echo "Installing Git"
 apt-get install git -y >/dev/null
 
-echo "Installing Nginx"
-apt-get install nginx -y >/dev/null
-/etc/init.d/nginx stop
 
 echo "Installing PHP"
 apt-get install php5-common php5-dev php5-cli -y >/dev/null
 
 echo "Installing PHP extensions"
 apt-get install php5-curl php5-intl php5-gd php5-mcrypt php5-mysql -y >/dev/null
-
-echo "Installing Apache"
-apt-get install apache2 -y >/dev/null
-/etc/init.d/apache2 stop
 
 echo "Preparing MySQL"
 debconf-set-selections <<< "mysql-server mysql-server/root_password password root"
@@ -32,18 +25,25 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 echo "Installing MySQL"
 apt-get install mysql-server -y >/dev/null
 
+echo "Installing Nginx"
+apt-get install nginx -y >/dev/null
+/etc/init.d/nginx stop
+
 echo "Configuring Nginx"
-cp /var/www/provision/config/nginx/proxy_params /etc/nginx/proxy_params
-cp /var/www/provision/config/nginx/generic /etc/nginx/sites-available/generic >/dev/null
-ln -s /etc/nginx/sites-available/generic /etc/nginx/sites-enabled/
+cp /vagrant/provision/config/nginx/generic /etc/nginx/sites-available/generic >/dev/null
+[ ! -h /etc/nginx/sites-enabled/generic ] && ln -s /etc/nginx/sites-available/generic /etc/nginx/sites-enabled/generic
 rm -rf /etc/nginx/sites-available/default
 
 echo "Start nginx"
 /etc/init.d/nginx start >/dev/null
 
+echo "Installing Apache"
+apt-get install apache2 -y >/dev/null
+/etc/init.d/apache2 stop
+
 echo "Configuring Apache"
-cp /var/www/provision/config/apache/000-default.conf /etc/apache2/sites-available/000-default
-cp /var/www/provision/config/ports.conf /etc/apache2/ports.conf
+cp /vagrant/provision/config/apache/000-default.conf /etc/apache2/sites-available/000-default
+cp /vagrant/provision/config/apache/ports.conf /etc/apache2/ports.conf
 a2enmod rewrite
 
 echo "Start apache"
