@@ -1,0 +1,34 @@
+server {
+        server_name ~^(?<site>[a-z0-9\-_]+\.)vagrant$;
+
+        if ($site = "") {
+                set $site html;
+        }
+
+	set $root /var/www/dev/$site;
+
+        if (-d /var/www/$site/public) {
+                set $root /var/www/$site/public;
+        }
+
+        if (-d /var/www/$site/web) {
+                set $root /var/www/$site/web;
+        }
+
+        root $root;
+
+	index index.php index.html index.htm;
+
+	location ~ "\.(ttf|otf|woff)$" {
+		add_header Access-Control-Allow-Origin "*";
+	}
+
+	location / {
+		proxy_pass http://apache:9080;
+		include  /etc/nginx/proxy_params;
+	}
+
+	location ~ "^\.(ht|svn|git)" {
+		deny all;
+	}
+}
