@@ -55,7 +55,7 @@ curl -sS https://getcomposer.org/installer | php -- --filename=composer --instal
 echo "Install node"
 curl -sL https://deb.nodesource.com/setup_5.x | bash -
 apt-get install -y nodejs
-ln -s /usr/bin/nodejs /usr/bin/node
+[ ! -h /usr/bin/node ] && ln -s /usr/bin/nodejs /usr/bin/node
 
 echo "Clean"
 apt-get clean
