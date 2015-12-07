@@ -56,6 +56,7 @@ echo "Install node"
 curl -sL https://deb.nodesource.com/setup_5.x | bash -
 apt-get install -y nodejs
 [ ! -h /usr/bin/node ] && ln -s /usr/bin/nodejs /usr/bin/node
+npm install gulp-cli -g
 
 echo "Clean"
 apt-get clean
