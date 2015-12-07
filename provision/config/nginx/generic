@@ -1,5 +1,5 @@
 server {
-  server_name ~^(?<site>[a-z0-9\-_]+\.)dev-vagrant.com$;
+  server_name ~^(?<site>[a-z0-9\-_]+\.)dev-vagrant$;
 
   if ($site = "") {
     set $site html;
